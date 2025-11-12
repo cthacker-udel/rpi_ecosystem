@@ -1,0 +1,49 @@
+services:
+  app:
+    build:
+      dockerfile: ./RPI_Script/Dockerfile
+    depends_on:
+      - db
+    environment:
+      PI_NAME: dev_pi
+      DB_IDS: ids
+      DB_TEMPERATURES: temperatures
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_HOST: db
+      DB_SCHEMA: rpi_db
+    command: python main.py -debug -simulate
+    restart: no
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: rpi_db
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database_schema.sql:/docker-entrypoint-initdb.d/schema.sql
+  website:
+    build:
+      dockerfile: ./rpiapp2/Dockerfile
+    depends_on:
+      - websocket
+      - db
+    environment:
+      VITE_PUBLIC_WEBSOCKET_URL: "ws://websocket:8080"
+    restart: unless-stopped
+  websocket:
+    build:
+      dockerfile: ./rpi_websocket/Dockerfile
+    depends_on:
+      - db
+    environment:
+      WEBSOCKET_PORT: 8080
+      DATABASE_READ_USER: root
+      DATABASE_READ_PASSWORD: root
+      DATABASE_READ_HOST: db
+      DATABASE_READ_DATABASE: rpi_db
+      TEMPERATURE_TABLE: temperatures
+      IDS_TABLE: ids
+    restart: unless-stopped
