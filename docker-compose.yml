@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: ./RPI_Script
-      dockerfile: ./RPI_Script/Dockerfile
+      dockerfile: Dockerfile
     depends_on:
       - db
     environment:
@@ -28,7 +28,7 @@ services:
   website:
     build:
       context: ./rpiapp2
-      dockerfile: ./rpiapp2/Dockerfile
+      dockerfile: Dockerfile
     depends_on:
       - websocket
       - db
@@ -38,7 +38,7 @@ services:
   websocket:
     build:
       context: ./rpi_websocket
-      dockerfile: ./rpi_websocket/Dockerfile
+      dockerfile: Dockerfile
     depends_on:
       - db
     environment:
