@@ -1,6 +1,7 @@
 services:
   app:
     build:
+      context: ./RPI_Script
       dockerfile: ./RPI_Script/Dockerfile
     depends_on:
       - db
@@ -26,6 +27,7 @@ services:
       - ./database_schema.sql:/docker-entrypoint-initdb.d/schema.sql
   website:
     build:
+      context: ./rpiapp2
       dockerfile: ./rpiapp2/Dockerfile
     depends_on:
       - websocket
@@ -35,6 +37,7 @@ services:
     restart: unless-stopped
   websocket:
     build:
+      context: ./rpi_websocket
       dockerfile: ./rpi_websocket/Dockerfile
     depends_on:
       - db
