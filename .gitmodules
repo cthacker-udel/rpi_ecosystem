@@ -1,0 +1,9 @@
+[submodule "RPI_Script"]
+    path = RPI_Script
+    url = https://github.com/cthacker-udel/RPI_Script.git
+[submodule "rpi_websocket"]
+    path = rpi_websocket
+    url = https://github.com/cthacker-udel/rpi_websocket.git
+[submodule "rpiapp2"]
+    path = rpiapp2
+    url = https://github.com/cthacker-udel/rpiapp2.git
