@@ -4,7 +4,9 @@ services:
       context: ./RPI_Script
       dockerfile: Dockerfile
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+        restart: true
     environment:
       PI_NAME: dev_pi
       DB_IDS: ids
@@ -25,22 +27,34 @@ services:
       - "3306:3306"
     volumes:
       - ./database_schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      retries: 5
   website:
     build:
       context: ./rpiapp2
       dockerfile: Dockerfile
     depends_on:
-      - websocket
-      - db
+      websocket:
+        condition: service_started
+        restart: true
+      db:
+        condition: service_healthy
+        restart: true
     environment:
       VITE_PUBLIC_WEBSOCKET_URL: "ws://websocket:8080"
     restart: unless-stopped
+    ports:
+      - "80:80"
   websocket:
     build:
       context: ./rpi_websocket
       dockerfile: Dockerfile
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+        restart: true
     environment:
       WEBSOCKET_PORT: 8080
       DATABASE_READ_USER: root
@@ -49,4 +63,6 @@ services:
       DATABASE_READ_DATABASE: rpi_db
       TEMPERATURE_TABLE: temperatures
       IDS_TABLE: ids
+    ports:
+      - "8080:8080"
     restart: unless-stopped
