@@ -15,7 +15,7 @@ services:
       DB_PASSWORD: root
       DB_HOST: db
       DB: rpi_db
-    command: python main.py -debug -simulate
+    command: python main.py -simulate
     restart: no
   db:
     image: mysql:latest
