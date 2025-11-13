@@ -14,7 +14,7 @@ services:
       DB_USERNAME: root
       DB_PASSWORD: root
       DB_HOST: db
-      DB_SCHEMA: rpi_db
+      DB: rpi_db
     command: python main.py -debug -simulate
     restart: no
   db:
