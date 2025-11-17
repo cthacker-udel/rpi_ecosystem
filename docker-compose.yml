@@ -43,7 +43,7 @@ services:
         condition: service_healthy
         restart: true
     environment:
-      VITE_PUBLIC_WEBSOCKET_URL: "ws://websocket:8080"
+      VITE_PUBLIC_WEBSOCKET_URL: "ws://localhost:8080"
     restart: unless-stopped
     ports:
       - "80:80"
