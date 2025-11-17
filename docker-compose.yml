@@ -35,6 +35,8 @@ services:
     build:
       context: ./rpiapp2
       dockerfile: Dockerfile
+      args:
+        VITE_PUBLIC_WEBSOCKET_URL: "ws://localhost:8080"
     depends_on:
       websocket:
         condition: service_started
