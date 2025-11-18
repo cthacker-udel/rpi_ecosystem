@@ -5,7 +5,8 @@ CREATE TABLE `ids` (
   `name` varchar(25) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  UNIQUE KEY `pi_id` (`pi_id`)
+  UNIQUE KEY `pi_id` (`pi_id`),
+  KEY `idx_ids_created_at` (`created_at`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Creating the temperatures table.
@@ -18,6 +19,7 @@ CREATE TABLE `temperatures` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `fk_pi_id` (`pi_id`),
+  KEY `idx_temps_created_at` (`created_at`),
   CONSTRAINT `fk_pi_id` FOREIGN KEY (`pi_id`) REFERENCES `ids` (`pi_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
