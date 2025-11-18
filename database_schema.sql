@@ -1,3 +1,12 @@
+SET GLOBAL event_scheduler = ON;
+
+-- Creating event to clean old temperatures every hour
+CREATE EVENT IF NOT EXISTS cleanup_old_temperatures 
+  ON SCHEDULE EVERY 1 HOUR
+  DO
+    DELETE FROM temperatures
+    WHERE created_at < NOW() - INTERVAL 7 DAY;
+
 -- Creating the ids table.
 CREATE TABLE `ids` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
