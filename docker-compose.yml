@@ -1,5 +1,5 @@
 services:
-  app:
+  rpi_device_1:
     build:
       context: ./RPI_Script
       dockerfile: Dockerfile
@@ -9,6 +9,42 @@ services:
         restart: true
     environment:
       PI_NAME: dev_pi
+      DB_IDS: ids
+      DB_TEMPERATURES: temperatures
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_HOST: db
+      DB: rpi_db
+    command: python main.py -simulate
+    restart: no
+  rpi_device_2:
+    build:
+      context: ./RPI_Script
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    environment:
+      PI_NAME: dev_pi_2
+      DB_IDS: ids
+      DB_TEMPERATURES: temperatures
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_HOST: db
+      DB: rpi_db
+    command: python main.py -simulate
+    restart: no
+  rpi_device_3:
+    build:
+      context: ./RPI_Script
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    environment:
+      PI_NAME: dev_pi_3
       DB_IDS: ids
       DB_TEMPERATURES: temperatures
       DB_USERNAME: root
